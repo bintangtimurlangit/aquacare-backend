@@ -67,7 +67,7 @@ model settings {
 
 model users {
   id         Int       @id @default(autoincrement())
-  username   String    @unique @db.VarChar(255) // Ensure this line has @unique
+  username   String    @unique @db.VarChar(255)
   password   String    @db.VarChar(255)
   created_at DateTime  @db.Timestamp(0)
   devices    devices[]
