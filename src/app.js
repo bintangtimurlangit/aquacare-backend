@@ -2,16 +2,16 @@ const express = require('express');
 const cors = require('cors');
 
 // Routes
-const userRoutes = require('./routes/users');
 const aquariumRoutes = require('./routes/aquariumRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
-
 app.use(express.json());
+app.use(cors());
 
-// Use aquarium routes
-app.use('/api/users', aquariumRoutes);
+// Initialize routes
 app.use('/api/aquarium', aquariumRoutes);
+app.use('/api/users', userRoutes);
 
 module.exports = app;
