@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model devices {
+  id          Int           @id @default(autoincrement())
+  user_id     Int
+  token       String        @unique @db.VarChar(255)
+  users       users         @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "devices_ibfk_1")
+  event_logs  event_logs[]
+  schedules   schedules[]
+  sensor_logs sensor_logs[]
+  settings    settings[]
+
+  @@index([user_id], map: "user_id")
+}
+
+model event_logs {
+  id           Int      @id @default(autoincrement())
+  device_id    Int
+  event        String   @db.VarChar(255)
+  description  String   @db.VarChar(255)
+  triggered_at DateTime @db.Timestamp(0)
+  devices      devices  @relation(fields: [device_id], references: [id], onUpdate: Restrict, map: "event_logs_ibfk_1")
+
+  @@index([device_id], map: "device_id")
+}
+
+model schedules {
+  id        Int              @id @default(autoincrement())
+  device_id Int
+  action    schedules_action
+  day       String           @db.VarChar(255)
+  time      DateTime         @db.Time(0)
+  devices   devices          @relation(fields: [device_id], references: [id], onUpdate: Restrict, map: "schedules_ibfk_1")
+
+  @@index([device_id], map: "device_id")
+}
+
+model sensor_logs {
+  id        Int              @id @default(autoincrement())
+  device_id Int
+  type      sensor_logs_type
+  value     Decimal          @db.Decimal(10, 2)
+  data      String           @db.VarChar(255)
+  date      DateTime         @db.Date
+  time      DateTime         @db.Time(0)
+  devices   devices          @relation(fields: [device_id], references: [id], onUpdate: Restrict, map: "sensor_logs_ibfk_1")
+
+  @@index([device_id], map: "device_id")
+}
+
+model settings {
+  id        Int     @id @default(autoincrement())
+  device_id Int
+  name      String  @db.VarChar(255)
+  value     Int     @default(0)
+  devices   devices @relation(fields: [device_id], references: [id], onUpdate: Restrict, map: "settings_ibfk_1")
+
+  @@index([device_id], map: "device_id")
+}
+
+model users {
+  id         Int       @id @default(autoincrement())
+  username   String    @unique @db.VarChar(255) // Ensure this line has @unique
+  password   String    @db.VarChar(255)
+  created_at DateTime  @db.Timestamp(0)
+  devices    devices[]
+}
+
+enum schedules_action {
+  feed
+  lamp
+}
+
+enum sensor_logs_type {
+  water
+  ph
+  temp
+}
