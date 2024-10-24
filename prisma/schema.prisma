@@ -11,6 +11,7 @@ model devices {
   id          Int           @id @default(autoincrement())
   user_id     Int
   token       String        @unique @db.VarChar(255)
+  aquarium_name String?     @db.VarChar(255)
   users       users         @relation(fields: [user_id], references: [id], onUpdate: Restrict, map: "devices_ibfk_1")
   event_logs  event_logs[]
   schedules   schedules[]
