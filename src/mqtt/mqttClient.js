@@ -63,13 +63,13 @@ async function processIncomingData(data) {
 // Subscribe to MQTT topic
 function subscribeToMqtt() {
     const topic = 'aquarium/monitoring';
-    console.log(`Connected to MQTT broker and subscribing to topic: ${topic}`);
+    console.log(`MQTT client functional! Subscribed to topic: ${topic}`);
 
     client.subscribe(topic, (err) => {
         if (err) {
             console.error(`Failed to subscribe to ${topic}:`, err.message);
         } else {
-            console.log(`Successfully subscribed to ${topic}`);
+            console.log(`Successfully subscribed!`);
         }
     });
 }
