@@ -18,22 +18,22 @@ exports.checkUserDevices = async (req, res) => {
 };
 
 exports.addDevice = async (req, res) => {
-    const userId = req.user.userId; // Extract user ID from the request
-    const { token, aquarium_name } = req.body; // Extract token and aquarium_name from the request body
+    const userId = req.user.id; // Check that userId is correctly assigned
+    const { token, aquarium_name } = req.body;
 
     try {
         // Create a new device
         const newDevice = await prisma.devices.create({
             data: {
-                user_id: userId, // Store the user ID
-                token: token || null, // Store the token or null if not provided
-                aquarium_name: aquarium_name || null // Store the aquarium name or null if not provided
+                user_id: userId, // Corrected user_id key to match the schema
+                token: token || null,
+                aquarium_name: aquarium_name || null
             }
         });
 
         res.status(201).json({ message: 'Device added successfully', device: newDevice });
     } catch (error) {
-        console.error('Error adding device:', error.message);
+        console.error('Error adding device:', error); // Log full error object for better debugging
         res.status(500).json({ error: 'Internal server error' });
     }
 };
