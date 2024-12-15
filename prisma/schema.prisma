@@ -1,0 +1,87 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String?
+  devices   Device[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Device {
+  id              String           @id
+  name            String?
+  user            User             @relation(fields: [userId], references: [id])
+  userId          String
+  metrics         Metrics[]
+  feedingSchedule FeedingSchedule[]
+  feedingHistory  FeedingHistory[]
+  settings        DeviceSettings?
+  alerts          Alert[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+}
+
+model Metrics {
+  id          String   @id @default(uuid())
+  device      Device   @relation(fields: [deviceId], references: [id])
+  deviceId    String
+  ph_level    Float
+  water_level Float
+  temperature Float
+  timestamp   DateTime @default(now())
+}
+
+model FeedingSchedule {
+  id        String   @id @default(uuid())
+  device    Device   @relation(fields: [deviceId], references: [id])
+  deviceId  String
+  time      String   // Format: "HH:mm"
+  days      String   // Format: "1,2,3,4,5,6,7" (Monday=1, Sunday=7)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FeedingHistory {
+  id        String   @id @default(uuid())
+  device    Device   @relation(fields: [deviceId], references: [id])
+  deviceId  String
+  feedTime  DateTime @default(now())
+  type      String   // "manual" or "scheduled"
+  success   Boolean  @default(true)
+}
+
+model DeviceSettings {
+  id            String   @id @default(uuid())
+  device        Device   @relation(fields: [deviceId], references: [id])
+  deviceId      String   @unique
+  name          String?
+  phMin         Float    @default(6.5)
+  phMax         Float    @default(7.5)
+  tempMin       Float    @default(24)
+  tempMax       Float    @default(28)
+  waterLevelMin Float    @default(80)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Alert {
+  id        String   @id @default(uuid())
+  device    Device   @relation(fields: [deviceId], references: [id])
+  deviceId  String
+  type      String   // 'warning' or 'critical'
+  message   String
+  metric    String   // 'ph', 'temperature', 'water_level'
+  value     Float
+  timestamp DateTime @default(now())
+}
