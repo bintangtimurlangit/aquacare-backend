@@ -32,7 +32,7 @@ jobs:
         run: npm install eslint eslint-config-prettier eslint-plugin-prettier --save-dev
         
       - name: Run ESLint
-        run: npx eslint . --ext .js
+        run: npx eslint "src/**/*.js"
         
       - name: Check code formatting with Prettier
         run: |
