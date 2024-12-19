@@ -20,10 +20,10 @@ app.use(express.json());
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-  res.json({ 
+  res.json({
     status: 'ok',
     timestamp: new Date().toISOString(),
-    service: 'aquacare-api'
+    service: 'aquacare-api',
   });
 });
 
