@@ -5,42 +5,19 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-      day: "monday"
-      time: "09:00"
-      timezone: "UTC"
-    target-branch: "develop"
+    target-branch: "main"
     labels:
       - "dependencies"
-      - "automerge"
-    commit-message:
-      prefix: "chore"
-      prefix-development: "chore"
-      include: "scope"
+      - "npm"
     open-pull-requests-limit: 10
-    pull-request-branch-name:
-      separator: "-"
-    reviewers:
-      - "bintangtimurlangit"
-    versioning-strategy: "increase-if-necessary"
 
   # GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
-      day: "monday"
-      time: "09:00"
-      timezone: "UTC"
-    target-branch: "develop"
+    target-branch: "main"
     labels:
       - "dependencies"
       - "github-actions"
-      - "automerge"
-    commit-message:
-      prefix: "ci"
-      include: "scope"
     open-pull-requests-limit: 10
-    pull-request-branch-name:
-      separator: "-"
-    reviewers:
-      - "bintangtimurlangit"
