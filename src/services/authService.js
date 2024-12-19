@@ -24,6 +24,11 @@ class AuthService {
         password: hashedPassword,
         name,
       },
+      select: {
+        id: true,
+        email: true,
+        name: true
+      }
     });
 
     // Generate token
