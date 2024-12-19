@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ main, develop ]
 
+# Add permissions block
+permissions:
+  contents: write
+  pull-requests: write
+
 env:
   NODE_VERSION: '18.18'
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
@@ -18,6 +23,8 @@ jobs:
     
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -39,8 +46,8 @@ jobs:
       - name: Commit format changes
         if: github.event_name == 'push'
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.email "btimurlangit@gmail.com"
+          git config --local user.name "Bintang Timurlangit"
           git add -A
           git diff-index --quiet HEAD || git commit -m "style: format code with prettier"
           git push
