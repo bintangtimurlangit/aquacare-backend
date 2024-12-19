@@ -31,8 +31,19 @@ jobs:
       - name: Run ESLint
         run: npx eslint "src/**/*.js"
         
-      - name: Check code formatting with Prettier
-        run: npx prettier --check "src/**/*.js"
+      - name: Format and check code with Prettier
+        run: |
+          npx prettier --write "src/**/*.js"
+          npx prettier --check "src/**/*.js"
+          
+      - name: Commit format changes
+        if: github.event_name == 'push'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git diff-index --quiet HEAD || git commit -m "style: format code with prettier"
+          git push
 
   security-scan:
     name: Security Scanning

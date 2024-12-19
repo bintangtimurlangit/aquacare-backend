@@ -15,7 +15,11 @@ router.post('/register', deviceController.registerDevice);
 router.get('/my-devices', deviceController.getUserDevices);
 
 // Control a device
-router.post('/:deviceId/control', authMiddleware, deviceController.controlDevice);
+router.post(
+  '/:deviceId/control',
+  authMiddleware,
+  deviceController.controlDevice
+);
 
 // New routes for metrics and alerts
 router.get('/:deviceId/metrics/history', metricsController.getMetricsHistory);
