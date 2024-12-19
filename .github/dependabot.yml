@@ -21,9 +21,7 @@ updates:
       separator: "-"
     reviewers:
       - "bintangtimurlangit"
-    versioning-strategy:
-      lockfile-only: false
-      update-type: "semver-minor"
+    versioning-strategy: "increase-if-necessary"
 
   # GitHub Actions
   - package-ecosystem: "github-actions"
@@ -45,4 +43,4 @@ updates:
     pull-request-branch-name:
       separator: "-"
     reviewers:
-      - "bintangtimurlangit" 
+      - "bintangtimurlangit"
