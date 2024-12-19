@@ -7,12 +7,12 @@ process.env.JWT_SECRET = 'test-secret';
 // Mock bcryptjs
 jest.mock('bcryptjs', () => ({
   hash: jest.fn().mockResolvedValue('hashed_password'),
-  compare: jest.fn()
+  compare: jest.fn(),
 }));
 
 // Mock jsonwebtoken
 jest.mock('jsonwebtoken', () => ({
-  sign: jest.fn().mockReturnValue('mock_token')
+  sign: jest.fn().mockReturnValue('mock_token'),
 }));
 
 // Mock @prisma/client
@@ -23,11 +23,11 @@ jest.mock('@prisma/client', () => ({
   PrismaClient: jest.fn().mockImplementation(() => ({
     user: {
       create: mockCreate,
-      findUnique: mockFindUnique
+      findUnique: mockFindUnique,
     },
     $connect: jest.fn(),
-    $disconnect: jest.fn()
-  }))
+    $disconnect: jest.fn(),
+  })),
 }));
 
 // Import after mocks are set up
@@ -43,13 +43,13 @@ describe('AuthService', () => {
       const mockUser = {
         email: 'test@example.com',
         password: 'password123',
-        name: 'Test User'
+        name: 'Test User',
       };
 
       const mockCreatedUser = {
         id: 1,
         email: mockUser.email,
-        name: mockUser.name
+        name: mockUser.name,
       };
 
       // Set up the mock implementation for this test
@@ -64,13 +64,13 @@ describe('AuthService', () => {
         data: {
           email: mockUser.email,
           password: 'hashed_password',
-          name: mockUser.name
+          name: mockUser.name,
         },
         select: {
           id: true,
           email: true,
-          name: true
-        }
+          name: true,
+        },
       });
       expect(jwt.sign).toHaveBeenCalledWith(
         { userId: mockCreatedUser.id },
@@ -79,7 +79,7 @@ describe('AuthService', () => {
       );
       expect(result).toEqual({
         user: mockCreatedUser,
-        token: 'mock_token'
+        token: 'mock_token',
       });
     });
 
@@ -87,13 +87,15 @@ describe('AuthService', () => {
       const mockUser = {
         email: 'test@example.com',
         password: 'password123',
-        name: 'Test User'
+        name: 'Test User',
       };
 
       mockCreate.mockRejectedValue(new Error('Database error'));
 
       // Act & Assert
-      await expect(authService.register(mockUser)).rejects.toThrow('Database error');
+      await expect(authService.register(mockUser)).rejects.toThrow(
+        'Database error'
+      );
     });
   });
-}); 
+});

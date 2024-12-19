@@ -27,8 +27,8 @@ class AuthService {
       select: {
         id: true,
         email: true,
-        name: true
-      }
+        name: true,
+      },
     });
 
     // Generate token
