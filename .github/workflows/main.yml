@@ -26,18 +26,13 @@ jobs:
           cache: 'npm'
           
       - name: Install dependencies
-        run: npm ci
-        
-      - name: Install ESLint
-        run: npm install eslint eslint-config-prettier eslint-plugin-prettier --save-dev
+        run: npm install
         
       - name: Run ESLint
         run: npx eslint "src/**/*.js"
         
       - name: Check code formatting with Prettier
-        run: |
-          npm install prettier --save-dev
-          npx prettier --check "src/**/*.js"
+        run: npx prettier --check "src/**/*.js"
 
   security-scan:
     name: Security Scanning
@@ -53,7 +48,7 @@ jobs:
           cache: 'npm'
           
       - name: Install dependencies
-        run: npm ci
+        run: npm install
         
       - name: Run npm audit
         run: npm audit
@@ -95,7 +90,7 @@ jobs:
           cache: 'npm'
           
       - name: Install dependencies
-        run: npm ci
+        run: npm install
         
       - name: Generate Prisma Client
         run: npx prisma generate
