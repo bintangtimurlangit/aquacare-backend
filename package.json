@@ -21,6 +21,7 @@
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
     "mqtt": "^5.10.3",
+    "node-cron": "^3.0.3",
     "socket.io": "^4.8.1"
   },
   "devDependencies": {

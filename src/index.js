@@ -6,6 +6,7 @@ const setupMQTT = require('./config/mqtt');
 const authRoutes = require('./routes/authRoutes');
 const deviceRoutes = require('./routes/deviceRoutes');
 const feedingRoutes = require('./routes/feedingRoutes');
+const checkAndCreateDefaultSchedules = require('./jobs/scheduleChecker');
 
 const app = express();
 const server = http.createServer(app);
@@ -14,6 +15,9 @@ const io = initializeSocket(server);
 // Setup MQTT and make it globally accessible
 const mqttClient = setupMQTT(io);
 global.mqttClient = mqttClient;
+
+// Run schedule checker on server start
+checkAndCreateDefaultSchedules();
 
 app.use(cors());
 app.use(express.json());
